@@ -1,0 +1,47 @@
+﻿docker pull microsoft/mssql-server-linux
+
+docker run -d --name mysql_server -e 'ACCEPT_EULA=Y' -e SA_PASSWORD=Docker123! -p 1433:1433 microsoft/mssql-server-linux
+
+
+Open Azure data studio and set host as localhost and user=sa, password=Docker123!
+
+
+.NET Core CLI Commands:
+
+1. Create a new empty web API project named 'MeetupAPI'
+dotnet new api -n MeetupAPI
+
+2. Run a .NET Core project - make sure you are in the location of the '<projectname>'.csproj' file
+dotnet run
+3. Add NuGet package (in the course I'm using Visual Studio to do that, instead you will have to run this command with a given package name) 
+dotnet add package <packagename>
+
+
+MS SQL database which on windows can be installed as a service, but on linx/macOS you will have to run it in a docker container.
+You can download docker from here:
+https://www.docker.com/get-started
+
+Once it is installed and running on your machine run the following command to start MS SQL as a container
+
+docker run -e 'ACCEPT_EULA=Y' -e 'SA_PASSWORD=yourStrong(!)Password' -p 1433:1433 -d mcr.microsoft.com/mssql/server:2017-latest
+
+To verify if the container is up and running, execute:
+docker ps
+
+To verify the connection to that MS SQL server instance, I recommend using VS Code extension called 'ms sql'
+The server is 'localhost', user: 'sa' and the password is the one from the docker run command.
+
+
+Below connection string for my local machine:
+"Server=(localdb)\\mssqllocaldb;Database=MeetupDb;Trusted_Connection=True;"
+
+
+Running the MS SQL as a docker container, adjust it properly:
+"Server=localhost;Database=MeetupDb;User Id=sa;Password=yourStrong(!)Password;"
+
+
+
+
+Dotnet Migration Command Mac
+dotnet ef migrations add QuotestypeCreated
+dotnet ef database update
